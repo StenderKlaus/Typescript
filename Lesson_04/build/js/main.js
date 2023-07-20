@@ -58,3 +58,55 @@ const addAll1 = (a, b, c) => {
     return a;
 };
 console.log(addAll1(3, 3));
+// Default param values
+const sumAll = (a, b, c = 2) => {
+    return a + b + c;
+};
+logMsg(addAll1(2, 3, 2));
+logMsg(addAll1(2, 3));
+logMsg(sumAll(2, 3));
+// Jetzt wird dem param "a" ebenfalls eine Wertvorgabe gemacht ( a = 10)
+const sumAll1 = (a = 10, b, c = 2) => {
+    return a + b + c;
+};
+logMsg(addAll1(2, 3, 2)); //Ergebnis = 7
+logMsg(addAll1(2, 3)); //Ergebnis = 5
+logMsg(sumAll1(2, 3)); //Ergebnis = 7
+logMsg(sumAll1(undefined, 3)); //Ergebnis = 15
+// Rest Parameters
+const total = (...nums) => {
+    return nums.reduce((prev, curr) => prev + curr);
+};
+logMsg(total(1, 2, 3, 4)); //Ergebnis = 10
+const total1 = (a, ...nums) => {
+    return a + nums.reduce((prev, curr) => prev + curr);
+};
+logMsg(total1(1, 2)); //Ergebnis = 3
+logMsg(total1(1, 2, 3)); //Ergebnis = 6
+logMsg(total1(10, 2, 3)); //Ergebnis = 15
+// Never Type
+// Beim hovern über "createError" wird angezeigt --> "never"
+const createError = (errMsg) => {
+    throw new Error(errMsg);
+};
+const infiniteLoop = () => {
+    let i = 1;
+    while (true) {
+        i++;
+        if (i > 100)
+            break;
+    }
+};
+// custom type guard
+const isNumber = (value) => {
+    return typeof value === 'number'
+        ? true : false;
+};
+// use of the "never"-Type
+const numberOrString = (value) => {
+    if (typeof value === 'string')
+        return 'string';
+    if (isNumber(value))
+        return 'number';
+    return createError('This should never happen!');
+};

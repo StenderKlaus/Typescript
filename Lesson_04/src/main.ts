@@ -86,7 +86,7 @@ const addAll = (a: number, b: number, c: number): number => {
 const addAll1 = (a: number, b?: number, c?: number): number => {
     if (typeof c !== 'undefined' && typeof b !== 'undefined') {
         return a + b + c
-    }
+        }
     if (typeof b === 'undefined' && typeof c !== 'undefined') {
         return a + c
         }
@@ -97,3 +97,65 @@ const addAll1 = (a: number, b?: number, c?: number): number => {
 }
 
 console.log(addAll1(3, 3));
+
+// Default param values
+const sumAll = (a: number, b: number, c: number = 2): number => {
+        return a + b + c   
+    }
+
+logMsg(addAll1(2, 3, 2))
+logMsg(addAll1(2, 3))
+logMsg(sumAll(2, 3))
+
+// Jetzt wird dem param "a" ebenfalls eine Wertvorgabe gemacht ( a = 10)
+const sumAll1 = (a: number = 10, b: number, c: number = 2): number => {
+    return a + b + c   
+}
+
+logMsg(addAll1(2, 3, 2))            //Ergebnis = 7
+logMsg(addAll1(2, 3))               //Ergebnis = 5
+logMsg(sumAll1(2, 3))               //Ergebnis = 7
+logMsg(sumAll1(undefined, 3))       //Ergebnis = 15
+
+// Rest Parameters
+const total = (...nums: number[]): number => {
+    return nums.reduce((prev, curr) => prev + curr)
+}
+
+logMsg(total(1, 2, 3, 4))           //Ergebnis = 10
+
+const total1 = (a: number, ...nums: number[]): number => {
+    return a + nums.reduce((prev, curr) => prev + curr)
+}
+
+logMsg(total1(1, 2))                //Ergebnis = 3
+logMsg(total1(1, 2, 3))             //Ergebnis = 6
+logMsg(total1(10, 2, 3))            //Ergebnis = 15
+
+// Never Type
+// Beim hovern über "createError" wird angezeigt --> "never"
+const createError = (errMsg: string) => {
+    throw new Error(errMsg)
+}
+
+const infiniteLoop = () => {
+    let i: number = 1
+    while (true) {
+        i++
+        if (i > 100) break
+    }
+}
+
+// custom type guard
+const isNumber = (value: any): boolean => {
+    return typeof value === 'number'
+    ? true : false
+}
+
+// use of the "never"-Type
+const numberOrString = (value: number | string): string => {
+    if (typeof value === 'string') return 'string'
+    if (isNumber(value)) return 'number'
+    return createError('This should never happen!')
+}
+
