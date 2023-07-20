@@ -84,9 +84,7 @@ const greetGuitarist = (guitarist: Guitarist) => {
     return `Hello ${guitarist.name}!`
 }
 
-console.log(greetGuitarist(jp));
-
-evh1 = jp1
+console.log(greetGuitarist(evh));
 
 const greetGuitarist1 = (guitarist: Guitarist) => {
     if (guitarist.name) {
@@ -95,7 +93,7 @@ const greetGuitarist1 = (guitarist: Guitarist) => {
     return `Hello, no guitarist available`
 }
 
-console.log(greetGuitarist(evh));
+console.log(greetGuitarist1(evh));
 
 // Enums
 // Eine Aufzählung ist eine spezielle „Klasse“, die eine Gruppe von Konstanten (unveränderlichen Variablen) darstellt.
