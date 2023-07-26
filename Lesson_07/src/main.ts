@@ -2,15 +2,16 @@
 ///// Index Signatures /////
 ////////////////////////////
 
-interface TransactionObj {
-    [index: string]: number
-}
 // interface TransactionObj {
-//    Pizza: number,
-//    Books: number,
-//    Job: number,
+//     [index: string]: number
+// }
+ interface TransactionObj {
+    readonly [index: string]: number;
+    Pizza: number,
+    Books: number,
+    Job: number,
 //    'First Name': string
-//}
+}
 
 // Mit Interface wird ein Objekt installiert. Keine Klasse. Ein Default-Wert z.B.
 // Pizza: number = -20 produziert automatisch einen Bug.
@@ -44,3 +45,74 @@ const todaysNet = (transactions: TransactionObj) => {
 }
 
 console.log(todaysNet(todaysTransactions))
+
+todaysTransactions.Pizza = 40
+
+console.log(todaysTransactions["Dave"]);
+// Der Param "Dave" welcher hier aufgerufen wird ist 'undefined'. Dies wird als Bug ausgegeben.
+
+/////////////////////////////////////////////////////////////
+                ///// Beispiel 2 /////
+/////////////////////////////////////////////////////////////
+
+interface Student {
+    // [key: string]: number | string | number[] | undefined; 
+    name: string,
+    GPA: number,
+    classes?: number[]
+}
+
+const student: Student = {
+    name: "Doug",
+    GPA: 3.5,
+    classes: [100, 200]
+}
+
+// console.log(student.test);
+// Durch das auskommentieren von Zeile 59 wird hier in Zeile 71 ein Bug produziert, da "test" unknown / undefined ist.
+
+for (const key in student) {
+    console.log(`${key}: ${student[key as keyof Student]}`);
+}
+
+/////////////////////////////////////////////////////////////
+                ///// Beispiel 2.1 /////
+/////////////////////////////////////////////////////////////
+
+Object.keys(student).map(key => {
+    console.log(student[key as keyof typeof student]);
+})
+
+/////////////////////////////////////////////////////////////
+                ///// Beispiel 2.2 /////
+/////////////////////////////////////////////////////////////
+
+const logStudentKey = ( student: Student, key: keyof Student): void => {
+    console.log(`Student ${key}: ${student[key]}`);
+}
+
+logStudentKey(student, 'GPA')       // Ausgabe = Student GPA: 3.5
+logStudentKey(student, 'name')      // Ausgabe = Student name: Doug
+logStudentKey(student, 'classes')   // Ausgabe = Student classes: 100,200
+
+/////////////////////////////////////////////////////////////
+                ///// Beispiel 3 /////
+/////////////////////////////////////////////////////////////
+
+// interface Incomes {
+//     [key: string]: number;
+// }
+
+type Streams = 'salary' | 'bonus' | 'sidehustle'
+
+type Incomes = Record<Streams, number>;
+
+const monthlyIncomes: Incomes = {
+    salary: 500,
+    bonus: 100,
+    sidehustle: 250
+}
+
+for (const revenue in monthlyIncomes) {
+    console.log(monthlyIncomes[revenue as keyof Incomes]);
+}

@@ -2,12 +2,6 @@
 ////////////////////////////
 ///// Index Signatures /////
 ////////////////////////////
-// interface TransactionObj {
-//    Pizza: number,
-//    Books: number,
-//    Job: number,
-//    'First Name': string
-//}
 // Mit Interface wird ein Objekt installiert. Keine Klasse. Ein Default-Wert z.B.
 // Pizza: number = -20 produziert automatisch einen Bug.
 // Eine Klasse definiert ein Objekt. In dieser Klasse ist ein Default-Wert definierbar.
@@ -35,3 +29,38 @@ const todaysNet = (transactions) => {
     return total;
 };
 console.log(todaysNet(todaysTransactions));
+todaysTransactions.Pizza = 40;
+console.log(todaysTransactions["Dave"]);
+const student = {
+    name: "Doug",
+    GPA: 3.5,
+    classes: [100, 200]
+};
+// console.log(student.test);
+// Durch das auskommentieren von Zeile 59 wird hier in Zeile 71 ein Bug produziert, da "test" unknown / undefined ist.
+for (const key in student) {
+    console.log(`${key}: ${student[key]}`);
+}
+/////////////////////////////////////////////////////////////
+///// Beispiel 2.1 /////
+/////////////////////////////////////////////////////////////
+Object.keys(student).map(key => {
+    console.log(student[key]);
+});
+/////////////////////////////////////////////////////////////
+///// Beispiel 2.2 /////
+/////////////////////////////////////////////////////////////
+const logStudentKey = (student, key) => {
+    console.log(`Student ${key}: ${student[key]}`);
+};
+logStudentKey(student, 'GPA'); // Ausgabe = Student GPA: 3.5
+logStudentKey(student, 'name'); // Ausgabe = Student name: Doug
+logStudentKey(student, 'classes'); // Ausgabe = Student classes: 100,200
+const monthlyIncomes = {
+    salary: 500,
+    bonus: 100,
+    sidehustle: 250
+};
+for (const revenue in monthlyIncomes) {
+    console.log(monthlyIncomes[revenue]);
+}
