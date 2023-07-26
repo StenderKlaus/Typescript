@@ -1,130 +1,46 @@
-class Coder {
+////////////////////////////
+///// Index Signatures /////
+////////////////////////////
 
-    secondLanguage!: string;
+interface TransactionObj {
+    [index: string]: number
+}
+// interface TransactionObj {
+//    Pizza: number,
+//    Books: number,
+//    Job: number,
+//    'First Name': string
+//}
 
-    constructor(
-        public readonly name: string, 
-        public music: string, 
-        private age: number, 
-        protected language: string = 'Typescript'
-        ) {
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.language = language;
-        }
+// Mit Interface wird ein Objekt installiert. Keine Klasse. Ein Default-Wert z.B.
+// Pizza: number = -20 produziert automatisch einen Bug.
+// Eine Klasse definiert ein Objekt. In dieser Klasse ist ein Default-Wert definierbar.
+// In einem Object darf es keine Default-Werte geben!!!
 
-        public getAge() {
-            return `Hello, I'm ${this.age} years old.`
-        }
+const todaysTransactions: TransactionObj = {
+    Pizza: -10,
+    Books: -5,
+    Job: 50,
+//    'First Name': 'John',
 }
 
-const Dave = new Coder('Dave', 'Rock', 42)
-console.log(Dave);
-console.log(Dave.getAge());
-// console.log(Dave.age);
-// console.log(Dave.language);
+console.log(todaysTransactions.Pizza);
+console.log(todaysTransactions['Pizza']);
+console.log(todaysTransactions['Books']);
+console.log(todaysTransactions['Job']);
+// console.log(todaysTransactions.First Name);
+// Wird der Param mit 2 Wörtern eingegeben --> Bug.
+// console.log(todaysTransactions['First Name']);
 
-class WebDev extends Coder {
-    constructor(
-        public computer: string,
-        name: string,
-        music: string,
-        age: number,
-        ) {
-        super(name, music, age)
-        this.computer = computer
-        }
-    
-    public getLang() {
-        return `I write ${this.language}`
+let prop: string = 'Pizza';
+
+const todaysNet = (transactions: TransactionObj) => {
+    let total = 0
+    for ( const transaction in transactions ) {
+        total += transactions[transaction]
+    // Durch "for - in" Loop wird automatisch der komplette Keys-Bereich von einzelnen Objekten (dessen Value) von a nach z durchlaufen. Die Berechnung erfolgt dann immer durch in diesem Beispiel "+=". Nach Durchlaufen aller Keys springt das Programm automatisch zum "return".
     }
+    return total
 }
 
-const Sarah = new WebDev('Mac', 'Sarah', 'LoFi', 25)
-
-console.log(Sarah.getLang());
-// console.log(Sarah.age);
-// console.log(Sarah.lang);
-
-//////////////////////////////////////////////////////////////////////////
-
-interface Musician {
-    name: string,
-    instrument: string,
-    play(action: string): string
-}
-
-class Guitarist implements Musician {
-    name: string
-    instrument: string
-
-    constructor(name: string, instrument: string) {
-        this.name = name;
-        this.instrument = instrument;
-    }
-
-play(action: string) {
-    return `${this.name} ${action} the ${this.instrument}`;
-    }
-}
-
-const Page = new Guitarist('Jimmy', 'guitar');
-console.log(Page.play('strums'));
-
-//////////////////////////////////////////////////////////////////////
-
-class Peeps {
-    static count: number = 0
-
-    static getCount(): number {
-        return Peeps.count;
-        }
-
-    public id: Number
-
-    constructor(public name: string) {
-        this.name = name
-        this.id = ++Peeps.count
-        // ++ vor dem Peeps.count bedeutet das die erste id mit dem Wert "1" beginnt
-    }
-}
-
-const John = new Peeps('John');
-const Steve = new Peeps('Steve');
-const Amy = new Peeps('Amy');
-
-console.log(John.id);
-console.log(Amy.id);
-console.log(Steve.id);
-console.log(Peeps.count);
-
-/////////////////////////////////////////////////////////////////////
-
-class Bands {
-    private dataState: string[]
-
-    constructor() {
-        this.dataState = []
-    }
-
-    public get data(): string[] {
-        return this.dataState
-    }
-
-    public set data(value: string[]) {
-        if (Array.isArray(value) && value.every(el => typeof el === 'string')) {
-            this.dataState = value
-            return
-        } else throw new Error('Params is not an Array of strings')
-    }
-}
-
-const MyBands = new Bands()
-MyBands.data = ['neil Young', 'Led Zep']
-
-console.log(MyBands.data);
-
-MyBands.data = [...MyBands.data, 'ZZ Top']
-
-console.log(MyBands.data);
+console.log(todaysNet(todaysTransactions))
