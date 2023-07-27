@@ -13,7 +13,7 @@
 //    'First Name': string
 }
 
-// Mit Interface wird ein Objekt installiert. Keine Klasse. Ein Default-Wert z.B.
+// Mit Interface wird ein Objekt erstellt. Keine Klasse. Ein Default-Wert z.B.
 // Pizza: number = -20 produziert automatisch einen Bug.
 // Eine Klasse definiert ein Objekt. In dieser Klasse ist ein Default-Wert definierbar.
 // In einem Object darf es keine Default-Werte geben!!!
