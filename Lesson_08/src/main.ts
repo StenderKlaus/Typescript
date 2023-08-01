@@ -79,6 +79,65 @@ console.log(isTrue([1, 2, 3]));
 console.log(isTrue(NaN));
 console.log(isTrue(-0));
 
+// Eine andere Art von Hilfsfunktion ist eine Funktion, die eine gewisse Logik für die Rückgabe benötigt.
+// EX2: Diese Funktion prüft, ob der übergebene Parameter ein True- oder False-Wert (Boolean) ist, indem sie den übergebenen Parameter auf der Grundlage der Standard-Thruthy-/Falsy-Werte von JS mit einigen Änderungen wie der Umwandlung eines leeren Arrays oder eines leeren Objekts, die standardmäßig Thruthy sind, in Falsy mittels if-Anweisungen typisiert.
+///// der !! double bang Operator nimmt eine 0 (Null) und spiegelt sie und spiegelt sie dann zurück, so dass es ein Wahr oder Falsch anstelle einer 0 oder 1 wird
+/// er nimmt irgendetwas anderes und macht daraus einen booleschen Wert, der standardmäßig entweder wahr oder falsch ist, oder wir könnten dies tun Boolean(object)
+
+/*
+/// IE: it converts Truthy values like :
+​
+if (true)
+if ({})
+if ([])
+if (42)
+if ("0")
+if ("false")
+if (new Date())
+if (-42)
+if (12n)
+if (3.14)
+if (-3.14)
+if (Infinity)
+if (-Infinity)
+​
+/////  into True and  Falsy values like:
+​​
+if (false) {
+  // Not reachable
+}
+​
+if (null) {
+  // Not reachable
+}
+​
+if (undefined) {
+  // Not reachable
+}
+​
+if (0) {
+  // Not reachable
+}
+​
+if (-0) {
+  // Not reachable
+}
+​
+if (0n) {
+  // Not reachable
+}
+​
+if (NaN) {
+  // Not reachable
+}
+​
+if ("") {
+  // Not reachable
+}
+​ into False this means it's type coercion into Boolean operator.
+​ */
+​
+
 /////////////////////////////////////////////////////////////
                 ///// Beispiel 3 /////
 /////////////////////////////////////////////////////////////
@@ -97,6 +156,11 @@ const checkBoolValue = <T>(arg: T): BoolCheck<T> => {
     }
     return  { value: arg, is: !!arg };
 }
+
+//EX3 : ist dasselbe wie EX2, wird aber mit einer Schnittstelle durchgeführt:
+
+//EX3: wir ersetzen den Rückgabetyp der Funktion durch eine Schnittstelle, die auch die Variable vom Typ T verwendet, indem wir <T> hinter den Namen der Schnittstelle setzen, aber da wir keinen Wert in die Schnittstelle ohne einen Schlüssel schreiben können, fügen wir einen Schlüssel mit dem Namen "value" hinzu und geben ihm den Wert "T", um den Typ T an das von der Funktion zurückgegebene arg zu übergeben /// und innerhalb der Funktion geben wir das Objekt {value: arg, is: true/false} zurück, anstatt {arg, is: true/false} zurückzugeben.
+
 
 /////////////////////////////////////////////////////////////
                 ///// Beispiel 4 /////
@@ -118,4 +182,89 @@ console.log(processUser({id: 1, name: 'John'}));
                 ///// Beispiel 5 /////
 /////////////////////////////////////////////////////////////
 
-//const getUsersProperty = <T extends HasID, K extends keyof T>(users: T[], key: K): T[K][]
+const getUsersProperty = <T extends HasID, K extends keyof T>(users: T[], key: K): T[K][] => {
+    return users.map(user => user[key])
+}
+
+const usersArray = [
+    {
+        "id": 1,
+        "name": "Leanne Graham",
+        "username": "Bret",
+        "email": "Sincere@april.biz",
+        "address": {
+            "street": "Kulas Light",
+            "suite": "Apt. 556",
+            "city": "Gwenborough",
+            "zipcode": "92998-3874",
+            "geo": {
+                "lat": "-37.3159",
+                "lng": "81.1496"
+            }
+        },
+        "phone": "1-770-736-8031 x56442",
+        "website": "hildegard.org",
+        "company": {
+            "name": "Romaguera-Crona",
+            "catchPhrase": "Multi-layered client-server neural-net",
+            "bs": "harness real-time e-markets"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Ervin Howell",
+        "username": "Antonette",
+        "email": "Shanna@melissa.tv",
+        "address": {
+            "street": "Victor Plains",
+            "suite": "Suite 879",
+            "city": "Wisokyburgh",
+            "zipcode": "90566-7771",
+            "geo": {
+                "lat": "-43.9509",
+                "lng": "-34.4618"
+            }
+        },
+        "phone": "010-692-6593 x09125",
+        "website": "anastasia.net",
+        "company": {
+            "name": "Deckow-Crist",
+            "catchPhrase": "Proactive didactic contingency",
+            "bs": "synergize scalable supply-chains"
+        }
+    },
+]
+​
+console.log(getUsersProperty(usersArray, "email"))
+console.log(getUsersProperty(usersArray, "username"))
+
+//EX6 : this is example of using Generics in a Class :
+​
+//we have  as array of objects each one of these objects have the type T which extends HasID and each Object has  keys of type K and values
+​
+​
+class StateObject<T> {
+    private data: T
+​
+    constructor(value: T) {
+        this.data = value
+    }
+​
+    get state(): T {
+        return this.data
+    }
+​
+    set state(value: T) {
+        this.data = value
+    }
+}
+​
+const store = new StateObject("John")
+console.log(store.state)
+store.state = "Dave"
+//store.state = 12 /// Dies führt zu einem Fehler, da wir zuerst eine Zeichenkette zugewiesen haben und der TS daraus schließt, dass der Datentyp Zeichenkette ist.
+​
+const myState = new StateObject<(string | number | boolean)[]>([15])
+myState.state = ['Dave', 42, true]
+console.log(myState.state)
+
